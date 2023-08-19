@@ -10,6 +10,7 @@ function prx($arr){
 }
 function get_safe_val($con,$val){
  if($val != ""){
+    $val = trim($val);
     return mysqli_real_escape_string($con,$val);
  }}
 ?>

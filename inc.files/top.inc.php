@@ -34,13 +34,19 @@
                <ul class="nav navbar-nav">
                   <li class="menu-title">Menu</li>
                   <li class="menu-item-has-children dropdown">
-                     <a href="#" > Department Master</a>
+                     <a href="categories.php" > Categories Master</a>
                   </li>
                   <li class="menu-item-has-children dropdown">
-                     <a href="#" > Leave Type Master</a>
+                     <a href="product.php" > Product Master</a>
                   </li>
 				  <li class="menu-item-has-children dropdown">
-                     <a href="#" > Employee Master</a>
+                     <a href="#" > Order Master</a>
+                  </li>
+                  <li class="menu-item-has-children dropdown">
+                     <a href="#" > User Master</a>
+                  </li>
+                  <li class="menu-item-has-children dropdown">
+                     <a href="contact_us.php" > Contact Us</a>
                   </li>
                </ul>
             </div>

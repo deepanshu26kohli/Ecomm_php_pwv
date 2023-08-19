@@ -613,7 +613,12 @@ canvas {
 .order-table .badge-pending {
     background: #fb9678
 }
-
+.order-table .badge-delete {
+    background: #FF0000;
+}
+.order-table .badge-edit {
+    background: #33A2FF;
+}
 .messenger-box {
     padding-top: 15px
 }
