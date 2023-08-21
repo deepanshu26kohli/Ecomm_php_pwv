@@ -2,7 +2,7 @@
  require './inc.files/connection.inc.php';
  require './inc.files/functions.inc.php';
 
- if(!isset( $_SESSION['admin_login'])){
+ if(!isset( $_SESSION['admin_login']) && $_SESSION['admin_login'] == "yes"){
    header("Location: login.php");
  }
    
@@ -43,7 +43,7 @@
                      <a href="#" > Order Master</a>
                   </li>
                   <li class="menu-item-has-children dropdown">
-                     <a href="#" > User Master</a>
+                     <a href="users.php" > User Master</a>
                   </li>
                   <li class="menu-item-has-children dropdown">
                      <a href="contact_us.php" > Contact Us</a>

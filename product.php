@@ -55,17 +55,17 @@ $res = mysqli_query($con, $sql);
                                             <td> <?php echo $row['id']; ?></td>
                                             <td> <?php echo $row['category_id']; ?></td>
                                             <td> <?php echo $row['name']; ?></td>
-                                            <td> <?php echo $row['image']; ?></td>
+                                            <td><img src="./media/product/<?php echo $row['image']?>"/></td>
                                             <td> <?php echo $row['mrp']; ?></td>
                                             <td> <?php echo $row['price']; ?></td>
                                             <td> <?php echo $row['qty']; ?></td>
                                             <td> <?php
                                                     if ($row['status'] == 1) {
                                                         echo "<span class='badge badge-complete'><a href='?type=status&operation=deactive&id=" . $row['id'] . "' >Active </a></span>";
-                                                    } else {
+                                                    }else {
                                                         echo "<span class='badge badge-pending'><a href='?type=status&operation=active&id=" . $row['id'] . "' >Deactive </a></span>";
                                                     }
-                                                    echo "<span class='badge badge-edit'><a href='manage_categories.php?type=edit&id=" . $row['id'] . "' >Edit</a></span>";
+                                                    echo "<span class='badge badge-edit'><a href='manage_product.php?type=edit&id=" . $row['id'] . "' >Edit</a></span>";
                                                     echo "<span class='badge badge-delete'><a href='?type=delete&id=" . $row['id'] . "' >Delete</a></span>";
                                                     ?> </td>
                                         </tr>
