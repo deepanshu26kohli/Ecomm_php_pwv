@@ -2,9 +2,12 @@
  require './inc.files/connection.inc.php';
  require './inc.files/functions.inc.php';
 
- if(!isset( $_SESSION['admin_login']) && $_SESSION['admin_login'] == "yes"){
+ if(!isset( $_SESSION['admin_login']) && $_SESSION['admin_login'] != "yes"){
    header("Location: login.php");
  }
+
+
+ 
    
 
 ?>
