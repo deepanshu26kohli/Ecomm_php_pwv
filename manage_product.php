@@ -64,9 +64,12 @@ if (isset($_POST['submit'])) {
                 $file_type = $_FILES['image']['type'];
                 $file_name =  $file_name . "." . explode("/",$file_type)[1];
                 if (isFileTypeImg($file_type)){
-                    move_uploaded_file($file_tmp, "./media/product/" . $file_name);
-                  $sql = sprintf("UPDATE `products` set `name`='%s',`category_id`=%d,`mrp`=%f,`price`=%f,`qty`=%d,`short_des`='%s',`description`='%s',`meta_title`='%s',`meta_desc`='%s',`meta_keyword`='%s',`image`='%s' where `id` = %d", $name, $categories_id, $mrp, $price, $qty, $short_desc, $description, $meta_title, $meta_desc, $meta_keyword,$file_name,$id);
+                   if( move_uploaded_file($file_tmp, "./media/product/" . $file_name))
+                   {
+                      $sql = sprintf("UPDATE `products` set `name`='%s',`category_id`=%d,`mrp`=%f,`price`=%f,`qty`=%d,`short_des`='%s',`description`='%s',`meta_title`='%s',`meta_desc`='%s',`meta_keyword`='%s',`image`='%s' where `id` = %d", $name, $categories_id, $mrp, $price, $qty, $short_desc, $description, $meta_title, $meta_desc, $meta_keyword,$file_name,$id);
                     mysqli_query($con, $sql);
+                   }
+                
                     // die();
                 }
             }else{
