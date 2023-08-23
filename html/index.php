@@ -16,7 +16,7 @@ require "inc.files/top.inc.php";
             <div class="row">
                 <div class="product__list clearfix mt--30">
                     <?php 
-                    $get_product = get_product(4,$con,"","");
+                    $get_product = get_product(4,$con,"");
                     foreach($get_product as $list){
                     ?>
                     <!-- Start Single Category -->
@@ -36,7 +36,7 @@ require "inc.files/top.inc.php";
                                 </ul>
                             </div>
                             <div class="fr__product__inner">
-                                <h4><a href="product.php"><?php echo $list['name']; ?></a></h4>
+                                <h4><a href="product.php?id=<?php echo $list['id'] ?>"><?php echo $list['name']; ?></a></h4>
                                 <ul class="fr__pro__prize">
                                     <li class="old__prize">$<?php echo $list['mrp']; ?></li>
                                     <li>$<?php echo $list['price']; ?></li> 

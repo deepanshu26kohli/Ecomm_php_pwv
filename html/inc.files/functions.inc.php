@@ -20,7 +20,25 @@ function get_safe_val($con,$val){
     }
     return false;
  }
- function get_product($limit="",$con,$cat_id="",$product_id=""){
+ function get_product($limit="",$con,$cat_id=""){
+    $sql = sprintf("SELECT * FROM `products` where `status`=1");
+    if($cat_id != ""){
+        $sql .= " and `category_id`=$cat_id";
+    }
+    
+   
+    $sql .= " order by `id` desc";
+    if($limit != ""){
+        $sql.= " limit $limit";
+    }
+    $res = mysqli_query($con,$sql);
+    $data = array();
+    while($row=mysqli_fetch_assoc($res)){
+        $data[] = $row;
+    }
+    return $data;
+ }
+ function get_one_product($limit="",$con,$cat_id="",$product_id=""){
     $sql = sprintf("SELECT `products`.*,`category`.`categories` FROM `products`,`category` where `products`.`status`=1");
     if($cat_id != ""){
         $sql .= " and `products`.`category_id`=$cat_id";
@@ -32,11 +50,9 @@ function get_safe_val($con,$val){
    
     $sql .= " order by `products`.`id` desc";
     if($limit != ""){
-        $sql.= " `products`.limit $limit";
+        $sql.= " limit $limit";
     }
-    
     $res = mysqli_query($con,$sql);
-    print_r($res);
     $data = array();
     while($row=mysqli_fetch_assoc($res)){
         $data[] = $row;

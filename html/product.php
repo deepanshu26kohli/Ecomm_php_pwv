@@ -1,7 +1,7 @@
 <?php
 require "inc.files/top.inc.php";
 $product_id = mysqli_real_escape_string($con, $_GET['id']);
-$get_product = get_product("",$con,"",$product_id);
+$get_product = get_one_product("",$con,"",$product_id);
 // prx($get_product)
 ?>
 
@@ -63,8 +63,9 @@ $get_product = get_product("",$con,"",$product_id);
                                             <li><a href="#"><?php echo $get_product[0]['categories'] ?></a></li>
                                         </ul>
                                     </div>
-                                    
+                                
                                     </div>
+                                    <a href="#" class="fr__btn" style="margin-top:2rem;">Add to Cart</a>
                                 </div>
                             </div>
                         </div>

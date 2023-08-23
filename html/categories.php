@@ -2,7 +2,14 @@
 require "inc.files/top.inc.php";
 $cat_id = mysqli_real_escape_string($con, $_GET['id']);
 if($cat_id>0){
-    
+    $get_product = get_product("", $con, $cat_id);
+}
+else{
+    ?>
+    <script>
+        window.location.href = 'index.php';
+    </script>
+    <?php
 }
 ?>
 <div class="body__overlay"></div>
@@ -46,7 +53,7 @@ if($cat_id>0){
                         <div class="shop__grid__view__wrap">
                             <div role="tabpanel" id="grid-view" class="single-grid-view tab-pane fade in active clearfix">
                                 <?php
-                                $get_product = get_product("", $con, $cat_id);
+                             
                                 if(count($get_product) > 0){
                                 foreach ($get_product as $list) {
                                
