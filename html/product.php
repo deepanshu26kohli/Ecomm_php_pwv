@@ -1,11 +1,20 @@
 <?php
 require "inc.files/top.inc.php";
 $product_id = mysqli_real_escape_string($con, $_GET['id']);
-$get_product = get_one_product("",$con,"",$product_id);
+if($product_id>0){
+    $get_product = get_one_product("",$con,"",$product_id);
+}else{
+    ?>
+    <script>
+       window.location.href = 'index.php';
+    </script>
+    <?php
+}
+
 // prx($get_product)
 ?>
 
-<div class="ht__bradcaump__area" style="background: rgba(0, 0, 0, 0) url(images/bg/4.jpg) no-repeat scroll center center / cover ;">
+<div class="ht__bradcaump__area" style="background-image:url('./images/bg/loginBannerImg.jpg');background-repeat:no-repeat;background-position:center;background-size:cover;margin-top:3rem;">
             <div class="ht__bradcaump__wrap">
                 <div class="container">
                     <div class="row">
@@ -57,6 +66,17 @@ $get_product = get_one_product("",$con,"",$product_id);
                                     <div class="sin__desc">
                                         <p><span>Availability:</span> In Stock</p>
                                     </div>
+                                    <div class="sin__desc">
+                                        <p><span>Qty:</span>
+                                        <select id="qty">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>
+                                    </p>
+                                    </div>
                                     <div class="sin__desc align--left">
                                         <p><span>Categories:</span></p>
                                         <ul class="pro__cat__list">
@@ -65,7 +85,7 @@ $get_product = get_one_product("",$con,"",$product_id);
                                     </div>
                                 
                                     </div>
-                                    <a href="#" class="fr__btn" style="margin-top:2rem;">Add to Cart</a>
+                                    <a href="javascript:void(0)" onclick="manage_cart('<?php echo $get_product[0]['id'] ?>','add')" class="fr__btn" style="margin-top:2rem;">Add to Cart</a>
                                 </div>
                             </div>
                         </div>
@@ -74,39 +94,19 @@ $get_product = get_one_product("",$con,"",$product_id);
             </div>
             <!-- End Product Details Top -->
         </section>
-        <!-- <section class="htc__produc__decription bg__white">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12">
-                        
-                        <ul class="pro__details__tab" role="tablist">
-                            <li role="presentation" class="description active"><a href="#description" role="tab" data-toggle="tab">description</a></li>
-                        </ul>
-                      
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ht__pro__details__content">
-                           
-                            <div role="tabpanel" id="description" class="pro__single__content tab-pane fade in active">
-                                <div class="pro__tab__content__inner">
-                                    <p>Formfitting clothing is all about a sweet spot. That elusive place where an item is tight but not clingy, sexy but not cloying, cool but not over the top. Alexandra Alvarez’s label, Alix, hits that mark with its range of comfortable, minimal, and neutral-hued bodysuits.</p>
-                                    <h4 class="ht__pro__title">Description</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem</p>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
-                                    <h4 class="ht__pro__title">Standard Featured</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in</p>
-                                </div>
-                            </div>
-                           
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section> -->
-
+<script>
+    	function manage_cart(pid,type){
+		var qty = jQuery("#qty").val();
+			jQuery.ajax({
+				url: 'managecart.php',
+				type: 'post',
+				data: 'pid=' + pid + '&qty=' + qty + '&type=' + type ,
+				success: function(result) {
+					jQuery('.htc__qua').html(result)
+				}
+			});
+		}
+</script>
 <?php
 require "inc.files/footer.inc.php";
 ?>

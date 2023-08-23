@@ -14,7 +14,7 @@ else{
 ?>
 <div class="body__overlay"></div>
 
-<div class="ht__bradcaump__area" style="background: rgba(0, 0, 0, 0) url(images/bg/4.jpg) no-repeat scroll center center / cover ;">
+<div class="ht__bradcaump__area" style="background-image:url('./images/bg/loginBannerImg.jpg');background-repeat:no-repeat;background-position:center;background-size:cover;margin-top:3rem;">
     <div class="ht__bradcaump__wrap">
         <div class="container">
             <div class="row">
