@@ -8,11 +8,7 @@ require "inc.files/top.inc.php";
             <div class="row">
                 <div class="col-xs-12">
                     <div class="bradcaump__inner">
-                        <nav class="bradcaump-inner">
-                            <a class="breadcrumb-item" href="index.html">Home</a>
-                            <span class="brd-separetor"><i class="zmdi zmdi-chevron-right"></i></span>
-                            <span class="breadcrumb-item active">shopping cart</span>
-                        </nav>
+                        
                     </div>
                 </div>
             </div>
@@ -40,13 +36,15 @@ require "inc.files/top.inc.php";
                             </thead>
                             <tbody>
                                 <?php
-                                foreach ($_SESSION['cart'] as $key => $val) {
-                                    $productArr = get_one_product("", $con, "", $key);
-                                    $pname = $productArr[0]['name'];
-                                    $mrp = $productArr[0]['mrp'];
-                                    $price = $productArr[0]['price'];
-                                    $image = $productArr[0]['image'];
-                                    $qty = $val['qty'];
+                                if(isset($_SESSION['cart'])){
+                                    foreach ($_SESSION['cart'] as $key => $val) {
+                                        $productArr = get_one_product("", $con, "", $key);
+                                        $pname = $productArr[0]['name'];
+                                        $mrp = $productArr[0]['mrp'];
+                                        $price = $productArr[0]['price'];
+                                        $image = $productArr[0]['image'];
+                                        $qty = $val['qty'];
+                                
                                 ?>
                                     <tr>
                                         <td class="product-thumbnail"><a href="#"><img src="../media/product/<?php echo $image; ?>" alt="product img" /></a></td>
@@ -64,7 +62,7 @@ require "inc.files/top.inc.php";
                                         <td class="product-subtotal"><?php echo $qty * $price; ?></td>
                                         <td class="product-remove"><a href="javascript:void(0)" onclick="manage_cart('<?php echo $key; ?>','remove')"><i class="icon-trash icons"></i></a></td>
                                     </tr>
-                                <?php } ?>
+                                    <?php }} ?>
                             </tbody>
                         </table>
                     </div>
@@ -93,17 +91,22 @@ require "inc.files/top.inc.php";
         } else {
             var qty = jQuery("#qty").val();
         }
+        console.log(qty)
+            if( qty < 0){
+                alert("Please enter valid quantity ");
+            }
+        else{    
         jQuery.ajax({
             url: 'managecart.php',
             type: 'post',
             data: 'pid=' + pid + '&qty=' + qty + '&type=' + type,
             success: function(result) {
                 if (type == 'update' || type == 'remove') {
-                    window.location.href = 'cart.php';
+                    window.location.href =  window.location.href;
                 }
                 jQuery('.htc__qua').html(result);
             }
-        });
+        });}
     }
 </script>
 <?php

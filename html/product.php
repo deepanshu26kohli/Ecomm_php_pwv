@@ -83,9 +83,16 @@ if($product_id>0){
                                             <li><a href="#"><?php echo $get_product[0]['categories'] ?></a></li>
                                         </ul>
                                     </div>
-                                
                                     </div>
+                                    <?php
+                                    $pid =  $get_product[0]['id'] ;
+                                    if(isset($_SESSION['cart'][$pid]['qty'])){ ?>
+                                       <a href="cart.php" class="fr__btn" style="margin-top:2rem;">Go to Cart</a>
+                                   <?php } 
+                                   else 
+                                       {?>
                                     <a href="javascript:void(0)" onclick="manage_cart('<?php echo $get_product[0]['id'] ?>','add')" class="fr__btn" style="margin-top:2rem;">Add to Cart</a>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +111,9 @@ if($product_id>0){
 				success: function(result) {
 					jQuery('.htc__qua').html(result)
 				}
+                
 			});
+            window.location.href = 'cart.php';
 		}
 </script>
 <?php

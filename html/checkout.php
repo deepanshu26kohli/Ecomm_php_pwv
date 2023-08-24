@@ -1,6 +1,12 @@
 <?php
 require "inc.files/top.inc.php";
-
+if(!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0){
+    ?>
+    <script>
+        window.location.href = 'index.php';
+    </script>
+    <?php
+}
 ?>
 <!-- Start Bradcaump area -->
 <div class="ht__bradcaump__area" style="background-image:url('./images/bg/loginBannerImg.jpg');background-repeat:no-repeat;background-position:center;background-size:cover;margin-top:3rem;">
@@ -9,11 +15,6 @@ require "inc.files/top.inc.php";
             <div class="row">
                 <div class="col-xs-12">
                     <div class="bradcaump__inner">
-                        <nav class="bradcaump-inner">
-                            <a class="breadcrumb-item" href="index.html">Home</a>
-                            <span class="brd-separetor"><i class="zmdi zmdi-chevron-right"></i></span>
-                            <span class="breadcrumb-item active">shopping cart</span>
-                        </nav>
                     </div>
                 </div>
             </div>
@@ -148,6 +149,8 @@ require "inc.files/top.inc.php";
                     <h5 class="order-details__title">Your Order</h5>
                     <div class="order-details__item">
                     <?php
+                    if(isset($_SESSION['cart'])){
+                        $cart_total = 0;
                                 foreach ($_SESSION['cart'] as $key => $val) {
                                     $productArr = get_one_product("", $con, "", $key);
                                     $pname = $productArr[0]['name'];
@@ -155,6 +158,7 @@ require "inc.files/top.inc.php";
                                     $price = $productArr[0]['price'];
                                     $image = $productArr[0]['image'];
                                     $qty = $val['qty'];
+                                    $cart_total += ($price*$qty);
                                 ?>
                         <div class="single-item">
                             <div class="single-item__thumb">
@@ -162,33 +166,43 @@ require "inc.files/top.inc.php";
                             </div>
                             <div class="single-item__content">
                                 <a href="#"><?php echo $pname; ?></a>
-                                <span class="price"><?php echo $price; ?></span>
+                                <span class="price"><?php echo $price*$qty; ?></span>
                             </div>
                             <div class="single-item__remove">
-                                <a href="#"><i class="zmdi zmdi-delete"></i></a>
+                            <a href="javascript:void(0)" onclick="manage_cart('<?php echo $key; ?>','remove')"><i class="icon-trash icons"></i></a>
                             </div>
                         </div>
-                        <?php } ?>
-                    </div>
-                    <div class="order-details__count">
-                        <div class="order-details__count__single">
-                            <h5>sub total</h5>
-                            <span class="price">$909.00</span>
-                        </div>
-                        <div class="order-details__count__single">
-                            <h5>Tax</h5>
-                            <span class="price">$9.00</span>
-                        </div>
+                            <?php } }?>
                     </div>
                     <div class="ordre-details__total">
                         <h5>Order total</h5>
-                        <span class="price">$918.00</span>
+                        <span class="price"><?php echo $cart_total; ?></span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function manage_cart(pid, type) {
+        if (type == 'update') {
+            var qty = jQuery('#' + pid + "qty").val();
+        } else {
+            var qty = jQuery("#qty").val();
+        }
+        jQuery.ajax({
+            url: 'managecart.php',
+            type: 'post',
+            data: 'pid=' + pid + '&qty=' + qty + '&type=' + type,
+            success: function(result) {
+                if (type == 'update' || type == 'remove') {
+                    window.location.href = window.location.href ;
+                }
+                jQuery('.htc__qua').html(result);
+            }
+        });
+    }
+</script>
 <?php
 require "inc.files/footer.inc.php";
 ?>
