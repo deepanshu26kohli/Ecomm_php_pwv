@@ -3,27 +3,28 @@ require "inc.files/connection.inc.php";
 require "inc.files/functions.inc.php";
 require "inc.files/add_to_cart.inc.php";
 $catsql = sprintf("SELECT * FROM category where status = 1 order by categories asc");
-$cat_res = mysqli_query($con,$catsql);
+$cat_res = mysqli_query($con, $catsql);
 $cat_arr = array();
-while($row = mysqli_fetch_assoc($cat_res)){
-     $cat_arr[] = $row; 
+while ($row = mysqli_fetch_assoc($cat_res)) {
+    $cat_arr[] = $row;
 }
 $obj = new add_to_cart();
 $totalProduct = $obj->totalProduct();
 ?>
 <!doctype html>
 <html class="no-js" lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Ecom Website</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <!-- Place favicon.ico in the root directory -->
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    
+
 
     <!-- All css files are included here. -->
     <!-- Bootstrap fremwork main css -->
@@ -50,7 +51,7 @@ $totalProduct = $obj->totalProduct();
 <body>
     <!--[if lt IE 8]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->  
+    <![endif]-->
 
     <!-- Body main wrapper start -->
     <div class="wrapper">
@@ -61,9 +62,9 @@ $totalProduct = $obj->totalProduct();
                 <div class="container">
                     <div class="row">
                         <div class="menumenu__container clearfix">
-                            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5"> 
+                            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
                                 <div class="logo">
-                                     <a href="index.html"><img src="images/logo/4.png" alt="logo images"></a>
+                                    <a href="index.html"><img src="images/logo/4.png" alt="logo images"></a>
                                 </div>
                             </div>
                             <div class="col-md-7 col-lg-8 col-sm-5 col-xs-3">
@@ -71,10 +72,10 @@ $totalProduct = $obj->totalProduct();
                                     <ul class="main__menu">
                                         <li class="drop"><a href="index.php">Home</a></li>
                                         <?php
-                                        foreach($cat_arr as $list){
-                                            ?>
-                                             <li><a href="categories.php?id=<?php echo $list['id'] ?>"><?php echo $list['categories'] ?></a></li>
-                                            <?php
+                                        foreach ($cat_arr as $list) {
+                                        ?>
+                                            <li><a href="categories.php?id=<?php echo $list['id'] ?>"><?php echo $list['categories'] ?></a></li>
+                                        <?php
                                         }
                                         ?>
                                         <li><a href="contact.php">contact</a></li>
@@ -86,29 +87,34 @@ $totalProduct = $obj->totalProduct();
                                         <ul>
                                             <li><a href="index.php">Home</a></li>
                                             <?php
-                                        foreach($cat_arr as $list){
+                                            foreach ($cat_arr as $list) {
                                             ?>
-                                             <li><a href="categories.php?id=<?php echo $list['id'] ?>"><?php echo $list['categories'] ?></a></li>
+                                                <li><a href="categories.php?id=<?php echo $list['id'] ?>"><?php echo $list['categories'] ?></a></li>
                                             <?php
-                                        }
-                                        ?>
+                                            }
+                                            ?>
                                             <li><a href="contact.php">contact</a></li>
                                         </ul>
                                     </nav>
-                                </div>  
+                                </div>
                             </div>
                             <div class="col-md-3 col-lg-2 col-sm-4 col-xs-4">
                                 <div class="header__right">
+                                    <div class="header__search search search__open">
+                                        <a href="">
+                                            <i class="icon-magnifier icons"></i>
+                                        </a>
+                                    </div>
                                     <div class="header__account">
                                         <?php
-                                           if(isset($_SESSION['user_login'])){
-                                             echo '<a href="logout.php">Logout</a>'; 
-                                            }
-                                           else{
-                                             echo '<a href="login.php">Login</a>'; 
-                                           }
+                                        if (isset($_SESSION['user_login'])) {
+                                            echo '<a href="logout.php">Logout</a>';
+                                            echo '<a href="my_order.php">My Order</a>';
+                                        } else {
+                                            echo '<a href="login.php">Login</a>';
+                                        }
                                         ?>
-                                
+
                                     </div>
                                     <div class="htc__shopping__cart">
                                         <a class="cart__menu" href="cart.php"><i class="icon-handbag icons"></i></a>
@@ -121,5 +127,27 @@ $totalProduct = $obj->totalProduct();
                     <div class="mobile-menu-area"></div>
                 </div>
             </div>
-            <!-- End Mainmenu Area -->
         </header>
+        <div class="body__overlay"></div>
+            <div class="offset__wrapper">
+                <div class="search__area">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="search__inner">
+                                    <form action="search.php" method="get">
+                                        <input type="text" name="str" placeholder="Search here...">
+                                        <button type="submit"></button>
+                                    </form>
+                                </div>
+                                <div class="search__close__btn">
+                                    <span class="search__close__btn_icon">
+                                        <i class="zmdi zmdi-close"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        

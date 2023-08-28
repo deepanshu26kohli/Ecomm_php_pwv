@@ -1,25 +1,8 @@
 <?php
 require "inc.files/top.inc.php";
-$cat_id = mysqli_real_escape_string($con, $_GET['id']);
-
-if (isset($_GET['sort'])){
-    $sort = mysqli_real_escape_string($con,$_GET['sort']);
-    if($sort == "price_high"){
-        $sort_order = " order by product.price desc";
-    }
-    if($sort == "price_low"){
-        $sort_order = " order by product.price asc";
-    }
-    if($sort == "price_low"){
-        $sort_order = " order by product.id desc";
-    }
-    if($sort == "price_low"){
-        $sort_order = " order by product.id asc";
-    }
-
-}
-if($cat_id>0){
-    $get_product = get_product("", $con, $cat_id);
+$str = mysqli_real_escape_string($con, $_GET['str']);
+if($str!=0){
+    $get_product = search("", $con, "","", $str);
 }
 else{
     ?>
@@ -40,7 +23,7 @@ else{
                         <nav class="bradcaump-inner">
                             <a class="breadcrumb-item" href="index.html">Home</a>
                             <span class="brd-separetor"><i class="zmdi zmdi-chevron-right"></i></span>
-                            <span class="breadcrumb-item active">Products</span>
+                            <span class="breadcrumb-item active">Search</span>
                         </nav>
                     </div>
                 </div>
@@ -55,17 +38,7 @@ else{
         <div class="row">
             <div class="col-lg-12  col-md-12  col-sm-12 col-xs-12">
                 <div class="htc__product__rightidebar">
-                    <div class="htc__grid__top">
-                        <div class="htc__select__option">
-                            <select class="ht__select" onchange="sort_product_drop('<?php echo $cat_id ?>')" id="sort_product_id">
-                                <option value="">Default sorting</option>
-                                <option value="price_high">Sort by low to high</option>
-                                <option value="price_low">Sort by price high to low</option>
-                                <option value="new">Sort by new first</option>
-                                <option value="old">Sort by old first</option>
-                            </select>
-                        </div>
-                    </div>
+
                     <!-- Start Product View -->
                     <div class="row">
                         <div class="shop__grid__view__wrap">
@@ -87,7 +60,9 @@ else{
                                             <div class="fr__hover__info">
                                                 <ul class="product__action">
                                                     <li><a href="wishlist.html"><i class="icon-heart icons"></i></a></li>
+
                                                     <li><a href="cart.html"><i class="icon-handbag icons"></i></a></li>
+
                                                     <li><a href="#"><i class="icon-shuffle icons"></i></a></li>
                                                 </ul>
                                             </div>
@@ -104,7 +79,7 @@ else{
                                 
                                 }
                                 else{
-                                    echo "No products available for this category";
+                                    echo "No products available for this search";
                                   }
                               
                                 ?>
@@ -243,15 +218,6 @@ else{
         <li><a href="product-details.html"><img src="images/banner/bn-3/2.jpg" alt="banner images"></a></li>
     </ul>
 </div>
-<script>
-    function sort_product_drop(cat_id){
-        var sort_product_id = jQuery('#sort_product_id').val();
-    //    console.log(cat_id)
-    //    console.log(sort_product_id)
-    //    window.location.href = "http://localhost/Ecomm_php_pwv/html/categories.php?id=2&sort=asdf"; 
-        window.location.href = "http://localhost/Ecomm_php_pwv/html/categories.php?id="+cat_id+"&sort="+sort_product_id; 
-    }
-</script>
 <?php
 require "inc.files/footer.inc.php";
 ?>

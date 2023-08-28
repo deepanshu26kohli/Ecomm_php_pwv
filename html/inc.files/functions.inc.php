@@ -59,4 +59,29 @@ function get_safe_val($con,$val){
     }
     return $data;
  }
+ function search($limit="",$con,$cat_id="",$product_id="",$search_str=""){
+    $sql = sprintf("SELECT `products`.*,`category`.`categories` FROM `products`,`category` where `products`.`status`=1");
+    if($cat_id != ""){
+        $sql .= " and `products`.`category_id`=$cat_id";
+    }
+    if($product_id != ""){
+        $sql .= " and `products`.`id`=$product_id";
+        
+    }
+    $sql .= " and `products`.`category_id`=`category`.`id`";
+    if ($search_str != ""){
+        $sql.= " and (`products`.`name` like '%$search_str%' or `products`.`description` like '%$search_str%')";
+    }
+    $sql .= " order by `products`.`id` desc";
+    if($limit != ""){
+        $sql.= " limit $limit";
+    }
+    // echo $sql;
+    $res = mysqli_query($con,$sql);
+    $data = array();
+    while($row=mysqli_fetch_assoc($res)){
+        $data[] = $row;
+    }
+    return $data;
+ }
 ?>
