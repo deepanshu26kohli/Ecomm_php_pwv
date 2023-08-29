@@ -11,6 +11,10 @@ if ($check_user > 0){
     $_SESSION['user_login'] = "yes";
     $_SESSION['user_id'] = $row['id'];
     $_SESSION['user_name'] = $row['name'];
+    if(isset($_SESSION['wishlist_id']) && $_SESSION['wishlist_id']!=""){
+        wishlist_add($con,$_SESSION['user_id'],$_SESSION['wishlist_id']);
+        unset($_SESSION['wishlist_id']);
+    }
     echo "Logged In";
   
 }

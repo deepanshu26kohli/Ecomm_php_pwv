@@ -10,6 +10,16 @@ while ($row = mysqli_fetch_assoc($cat_res)) {
 }
 $obj = new add_to_cart();
 $totalProduct = $obj->totalProduct();
+if (isset($_SESSION['user_login'])) {
+    $uid = $_SESSION['user_id'];
+    if (isset($_GET['wishlist_id'])) {
+        $wid = $_GET['wishlist_id'];
+        $sql = sprintf("DELETE from `wishlist` where `id`='%s' and `user_id`='$uid'", $wid);
+        mysqli_query($con, $sql);
+    }
+   
+    $wishlist_count = mysqli_num_rows(mysqli_query($con, "select `products`.`name`,`products`.`image`,`products`.`price`,`products`.`mrp`,`wishlist`.`id` from `products`,`wishlist` where `wishlist`.`product_id`=`products`.`id` and `wishlist`.`user_id`= '$uid'"));
+}
 ?>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -98,56 +108,63 @@ $totalProduct = $obj->totalProduct();
                                     </nav>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-lg-2 col-sm-4 col-xs-4">
-                                <div class="header__right">
-                                    <div class="header__search search search__open">
+                            <div class="col-md-5 col-lg-2 col-sm-4 col-xs-4">
+                                <div class="row">
+                                    <div class="col-1 header__search search search__open">
                                         <a href="">
                                             <i class="icon-magnifier icons"></i>
                                         </a>
                                     </div>
-                                    <div class="header__account">
+                                    <div class="col-7">
                                         <?php
                                         if (isset($_SESSION['user_login'])) {
                                             echo '<a href="logout.php">Logout</a>';
+                                            echo '||';
                                             echo '<a href="my_order.php">My Order</a>';
                                         } else {
                                             echo '<a href="login.php">Login</a>';
                                         }
                                         ?>
-
                                     </div>
-                                    <div class="htc__shopping__cart">
-                                        <a class="cart__menu" href="cart.php"><i class="icon-handbag icons"></i></a>
+                                    <div class="col-1">
+                                        <?php if (isset($_SESSION['user_id'])) { ?>
+                                            <a href="wishlist.php"><i class="icon-heart icons"></i></a>
+                                            <a href="wishlist.php"><span class="htc__qua "><?php echo $wishlist_count; ?></span></a>
+                                        <?php } ?>
+                                    </div>
+                                    <div class="col-1">
+                                        <a href="cart.php" style="margin-top:5rem;"><i class="icon-handbag icons"></i></a>
                                         <a href="cart.php"><span class="htc__qua"><?php echo $totalProduct; ?></span></a>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mobile-menu-area"></div>
-                </div>
-            </div>
-        </header>
-        <div class="body__overlay"></div>
-            <div class="offset__wrapper">
-                <div class="search__area">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="search__inner">
-                                    <form action="search.php" method="get">
-                                        <input type="text" name="str" placeholder="Search here...">
-                                        <button type="submit"></button>
-                                    </form>
-                                </div>
-                                <div class="search__close__btn">
-                                    <span class="search__close__btn_icon">
-                                        <i class="zmdi zmdi-close"></i>
-                                    </span>
-                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="mobile-menu-area"></div>
             </div>
-        
+    </div>
+    </header>
+    <div class="body__overlay"></div>
+    <div class="offset__wrapper">
+        <div class="search__area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="search__inner">
+                            <form action="search.php" method="get">
+                                <input type="text" name="str" placeholder="Search here...">
+                                <button type="submit"></button>
+                            </form>
+                        </div>
+                        <div class="search__close__btn">
+                            <span class="search__close__btn_icon">
+                                <i class="zmdi zmdi-close"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

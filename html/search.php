@@ -58,14 +58,9 @@ else{
                                                 </a>
                                             </div>
                                             <div class="fr__hover__info">
-                                                <ul class="product__action">
-                                                    <li><a href="wishlist.html"><i class="icon-heart icons"></i></a></li>
-
-                                                    <li><a href="cart.html"><i class="icon-handbag icons"></i></a></li>
-
-                                                    <li><a href="#"><i class="icon-shuffle icons"></i></a></li>
-                                                </ul>
-                                            </div>
+                                                    <ul class="product__action">
+                                                        <li><a href="javascript:void(0)" onclick="wishlist_manage('<?php echo $list['id'] ?>','add')"><i class="icon-heart icons"></i></a></li>
+                                                </div>
                                             <div class="fr__product__inner">
                                                 <h4><a href="product.php?id=<?php echo $list['id'] ?>"><?php echo $list['name']; ?></a></h4>
                                                 <ul class="fr__pro__prize">
@@ -218,6 +213,22 @@ else{
         <li><a href="product-details.html"><img src="images/banner/bn-3/2.jpg" alt="banner images"></a></li>
     </ul>
 </div>
+<script>
+function wishlist_manage(pid, type) {
+        jQuery.ajax({
+            url: "wishlist_manage.php",
+            type: 'post',
+            data: 'pid=' + pid + '&type=' + type,
+            success: function(result) {
+                if (result == 'not_login') {
+                    window.location.href = 'login.php';
+                } else {
+
+                }
+            }
+        });
+    }
+</script>
 <?php
 require "inc.files/footer.inc.php";
 ?>

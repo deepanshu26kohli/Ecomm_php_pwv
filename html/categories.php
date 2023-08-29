@@ -1,32 +1,30 @@
 <?php
 require "inc.files/top.inc.php";
 $cat_id = mysqli_real_escape_string($con, $_GET['id']);
-
-if (isset($_GET['sort'])){
-    $sort = mysqli_real_escape_string($con,$_GET['sort']);
-    if($sort == "price_high"){
-        $sort_order = " order by product.price desc";
+$sort_order = "";
+if (isset($_GET['sort'])) {
+    $sort = mysqli_real_escape_string($con, $_GET['sort']);
+    if ($sort == "price_high") {
+        $sort_order = " order by products.price desc";
     }
-    if($sort == "price_low"){
-        $sort_order = " order by product.price asc";
+    if ($sort == "price_low") {
+        $sort_order = " order by products.price asc";
     }
-    if($sort == "price_low"){
-        $sort_order = " order by product.id desc";
+    if ($sort == "price_low") {
+        $sort_order = " order by products.id desc";
     }
-    if($sort == "price_low"){
-        $sort_order = " order by product.id asc";
+    if ($sort == "price_low") {
+        $sort_order = " order by products.id asc";
     }
-
 }
-if($cat_id>0){
-    $get_product = get_product("", $con, $cat_id);
-}
-else{
-    ?>
+if ($cat_id > 0) {
+    $get_product = get_product("", $con, $cat_id, $sort_order);
+} else {
+?>
     <script>
         window.location.href = 'index.php';
     </script>
-    <?php
+<?php
 }
 ?>
 <div class="body__overlay"></div>
@@ -59,8 +57,8 @@ else{
                         <div class="htc__select__option">
                             <select class="ht__select" onchange="sort_product_drop('<?php echo $cat_id ?>')" id="sort_product_id">
                                 <option value="">Default sorting</option>
-                                <option value="price_high">Sort by low to high</option>
-                                <option value="price_low">Sort by price high to low</option>
+                                <option value="price_low">Sort by low to high</option>
+                                <option value="price_high">Sort by price high to low</option>
                                 <option value="new">Sort by new first</option>
                                 <option value="old">Sort by old first</option>
                             </select>
@@ -71,42 +69,37 @@ else{
                         <div class="shop__grid__view__wrap">
                             <div role="tabpanel" id="grid-view" class="single-grid-view tab-pane fade in active clearfix">
                                 <?php
-                             
-                                if(count($get_product) > 0){
-                                foreach ($get_product as $list) {
-                               
+
+                                if (count($get_product) > 0) {
+                                    foreach ($get_product as $list) {
+
                                 ?>
-                                
-                                    <!-- Start Single Product -->
-                                    <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
-                                        <div class="category">
-                                            <div style=" height:40vh; width:15vw; background-image:url('../media/product/<?php echo $list['image']; ?>'); background-position:center;background-size:cover;background-repeat:no-repeat" class="ht_cat_thumb">
-                                                <a href="product-details.html">
-                                                </a>
-                                            </div>
-                                            <div class="fr__hover__info">
-                                                <ul class="product__action">
-                                                    <li><a href="wishlist.html"><i class="icon-heart icons"></i></a></li>
-                                                    <li><a href="cart.html"><i class="icon-handbag icons"></i></a></li>
-                                                    <li><a href="#"><i class="icon-shuffle icons"></i></a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="fr__product__inner">
-                                                <h4><a href="product.php?id=<?php echo $list['id'] ?>"><?php echo $list['name']; ?></a></h4>
-                                                <ul class="fr__pro__prize">
-                                                    <li class="old__prize">$<?php echo $list['mrp']; ?></li>
-                                                    <li>$<?php echo $list['price']; ?></li>
-                                                </ul>
+
+                                        <!-- Start Single Product -->
+                                        <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
+                                            <div class="category">
+                                                <div style=" height:40vh; width:15vw; background-image:url('../media/product/<?php echo $list['image']; ?>'); background-position:center;background-size:cover;background-repeat:no-repeat" class="ht_cat_thumb">
+                                                    <a href="product-details.html">
+                                                    </a>
+                                                </div>
+                                                <div class="fr__hover__info">
+                                                    <ul class="product__action">
+                                                        <li><a href="javascript:void(0)" onclick="wishlist_manage('<?php echo $list['id'] ?>','add')"><i class="icon-heart icons"></i></a></li>
+                                                </div>
+                                                <div class="fr__product__inner">
+                                                    <h4><a href="product.php?id=<?php echo $list['id'] ?>"><?php echo $list['name']; ?></a></h4>
+                                                    <ul class="fr__pro__prize">
+                                                        <li class="old__prize">$<?php echo $list['mrp']; ?></li>
+                                                        <li>$<?php echo $list['price']; ?></li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
                                 <?php }
-                                
-                                }
-                                else{
+                                } else {
                                     echo "No products available for this category";
-                                  }
-                              
+                                }
+
                                 ?>
                                 <!-- End Single Product -->
                             </div>
@@ -228,7 +221,7 @@ else{
 </section>
 <!-- End Product Grid -->
 <!-- Start Brand Area -->
- 
+
 <!-- End Brand Area -->
 <!-- Start Banner Area -->
 <div class="htc__banner__area">
@@ -244,12 +237,27 @@ else{
     </ul>
 </div>
 <script>
-    function sort_product_drop(cat_id){
+    function sort_product_drop(cat_id) {
         var sort_product_id = jQuery('#sort_product_id').val();
-    //    console.log(cat_id)
-    //    console.log(sort_product_id)
-    //    window.location.href = "http://localhost/Ecomm_php_pwv/html/categories.php?id=2&sort=asdf"; 
-        window.location.href = "http://localhost/Ecomm_php_pwv/html/categories.php?id="+cat_id+"&sort="+sort_product_id; 
+        //    console.log(cat_id)
+        //    console.log(sort_product_id)
+        //    window.location.href = "http://localhost/Ecomm_php_pwv/html/categories.php?id=2&sort=asdf"; 
+        window.location.href = "http://localhost/Ecomm_php_pwv/html/categories.php?id=" + cat_id + "&sort=" + sort_product_id;
+    }
+
+    function wishlist_manage(pid, type) {
+        jQuery.ajax({
+            url: "wishlist_manage.php",
+            type: 'post',
+            data: 'pid=' + pid + '&type=' + type,
+            success: function(result) {
+                if (result == 'not_login') {
+                    window.location.href = 'login.php';
+                } else {
+
+                }
+            }
+        });
     }
 </script>
 <?php

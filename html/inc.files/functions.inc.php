@@ -20,14 +20,17 @@ function get_safe_val($con,$val){
     }
     return false;
  }
- function get_product($limit="",$con,$cat_id=""){
+ function get_product($limit="",$con,$cat_id="",$sort_order=""){
     $sql = sprintf("SELECT * FROM `products` where `status`=1");
     if($cat_id != ""){
         $sql .= " and `category_id`=$cat_id";
     }
-    
+    if($sort_order!= ""){
+         $sql .=$sort_order;
+    }else{
+        $sql .= " order by `id` desc";
+    }
    
-    $sql .= " order by `id` desc";
     if($limit != ""){
         $sql.= " limit $limit";
     }
@@ -83,5 +86,9 @@ function get_safe_val($con,$val){
         $data[] = $row;
     }
     return $data;
+ }
+ function wishlist_add($con,$uid,$pid){
+          $added_on = date('Y-m-d h:i:s');
+          mysqli_query($con,"INSERT into `wishlist`(`user_id`,`product_id`,`added_on`) values('$uid','$pid','$added_on')");
  }
 ?>
