@@ -129,12 +129,12 @@ if (isset($_SESSION['user_login'])) {
                                     <div class="col-1">
                                         <?php if (isset($_SESSION['user_id'])) { ?>
                                             <a href="wishlist.php"><i class="icon-heart icons"></i></a>
-                                            <a href="wishlist.php"><span class="htc__qua "><?php echo $wishlist_count; ?></span></a>
+                                            <a href="wishlist.php"><span class="htc__qua wishlist" id="wishlist"><?php echo $wishlist_count; ?></span></a>
                                         <?php } ?>
                                     </div>
                                     <div class="col-1">
                                         <a href="cart.php" style="margin-top:5rem;"><i class="icon-handbag icons"></i></a>
-                                        <a href="cart.php"><span class="htc__qua"><?php echo $totalProduct; ?></span></a>
+                                        <a href="cart.php"><span class="htc__qua" ><?php echo $totalProduct; ?></span></a>
                                     </div>
                                 </div>
 

@@ -14,6 +14,7 @@ if(isset($_SESSION['user_login'])){
     else{ 
           wishlist_add($con,$uid,$pid);
     }
+    echo $total_record = mysqli_num_rows(mysqli_query($con,"select * from wishlist where user_id='$uid' and product_id='$pid'"));
     }
 else{
     $_SESSION['wishlist_id'] = $pid;

@@ -30,8 +30,10 @@ require "inc.files/top.inc.php";
                                     </a>
                                 </div>
                                 <div class=" fr__hover__info">
-                                    <ul class="product__action">
-                                        <li><a href="javascript:void(0)" class="xyz" data-id="<?php echo $list['id'] ?>" onclick="wishlist_manage('<?php echo $list['id'] ?>','add')" <?php echo (in_array($list['id'], $ress)) ? 'style="background: #c43b68; background-repeat: no-repeat; background-position: 0 0 !important;"' : '' ?>><i class="icon-heart icons"></i></a></li>
+                                    <ul class="product__action">    
+                                    <li>
+                                        <a href="javascript:void(0)" class="xyz" onclick="wishlist_manage('<?php echo $list['id'] ?>','add')" <?php echo (in_array($list['id'], $ress)) ? 'style="background: #c43b68; background-repeat: no-repeat; background-position: 0 0 !important;"' : '' ?>><i class="icon-heart icons"></i></a>
+                                    </li>
                                 </div>
                                 <div class="fr__product__inner">
                                     <h4><a href="product.php?id=<?php echo $list['id'] ?>"><?php echo $list['name']; ?></a></h4>
@@ -188,11 +190,6 @@ require "inc.files/top.inc.php";
 require "inc.files/footer.inc.php";
 ?>
 <script>
-    $(document).ready(function() {
-        var dataIdValue = $(".xyz").data("id");
-        console.log(dataIdValue);
-    });
-
     function wishlist_manage(pid, type) {
         jQuery.ajax({
             url: "wishlist_manage.php",
@@ -202,7 +199,7 @@ require "inc.files/footer.inc.php";
                 if (result == 'not_login') {
                     window.location.href = 'login.php';
                 } else {
-
+                     jQuery(".wishlist").html(result);
                 }
             }
         });
